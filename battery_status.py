@@ -64,8 +64,8 @@ class Battery_Status:
         # Sørg for, at procentdelen er inden for intervallet 0% til 100%
         percentage = max(0, min(100, percentage))
 
-        return percentage                          # Replace with own math. Use function in adc_sub.py
-                                        # Make the result an integer value, and avoid neg. and above 100% values
+        return percentage
+    
 
     def calculate_average_battery(self, window_size, bat_percentage):
         self.buffer.append(bat_percentage)
@@ -78,22 +78,22 @@ class Battery_Status:
         return int(sum(self.buffer) / len(self.buffer))
 
 
+    def get_battery_pct(self):
+        bat_pct = self.calculate_average_battery(20, self.get_battery_percentage())
+        return bat_pct
+        
+        
     def get_battery_status(self):
         bat_pct = self.calculate_average_battery(20, self.get_battery_percentage())
         
         # Send data if there is a change (this principle saves power)
         if bat_pct != self.prev_bat_pct:
+
             data_string = str(time.ticks_ms()) + '|' + str(bat_pct) # The data to send. CHANGE IT! (Added the "sensor_id")
-            
+                
             #print("Battery Pct: " + data_string)
-            
-            
-    #        try:
-    #            en.send(dashboard_mac_address, data_string, False)
-    #        except ValueError as e:
-    #            print("Error sending the message: " + str(e))  
-            
+                
             # Update the previous values for use next time
             self.prev_bat_pct = bat_pct
-            return data_string
+            print(data_string)
             

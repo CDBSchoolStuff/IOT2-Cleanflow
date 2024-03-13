@@ -1,0 +1,1 @@
+execfile("smarthome_sensor_hcsr501.py")

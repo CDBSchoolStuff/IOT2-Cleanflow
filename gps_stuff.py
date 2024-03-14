@@ -20,12 +20,12 @@ class GPS_Stuff:
         lat = lon = None
         if self.gps.receive_nmea_data():
             if self.gps.get_latitude() != -999.0 and self.gps.get_longitude() != -999.0 and self.gps.get_validity() == "A":
-                speed = str(self.gps.get_speed())
                 lat = str(self.gps.get_latitude())
                 lon = str(self.gps.get_longitude())
                 return lat + "," + lon + "," + "0.0"
             else:
-                print(f"GPS data to adafruit not valid:\nlatitude: {lat}\nlongtitude: {lon}")
+                print(f"GPS data not valid:\nlatitude: {lat}\nlongtitude: {lon}")
                 return False
         else:
+            # print("GPS data not available...")
             return False

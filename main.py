@@ -75,7 +75,7 @@ while True:
         if ticks_ms() - gps_stuff_start > gps_stuff_period_ms:
             gps_stuff_start = ticks_ms()
             
-            print(GPS.get_mqtt_gps())
+            print(f"GPS data: {GPS.get_mqtt_gps()}")
 
 
     except KeyboardInterrupt:

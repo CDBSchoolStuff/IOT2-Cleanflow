@@ -1,6 +1,6 @@
 from battery_status import Battery_Status
-#from gps_stuff import GPS_Stuff
 from pump_control import Pump_Control
+from gps_stuff import GPS_Stuff
 
 ########################################
 # OWN MODULES
@@ -26,10 +26,16 @@ PIN_PUMP = 33
 
 battery_subadc = ADC_substitute(PIN_BAT)  # The battery object
 Battery = Battery_Status(battery_subadc)
-# GPS = GPS_Stuff()
 
 pump_pOut = Pin(PIN_PUMP, Pin.OUT)
 Pump = Pump_Control(pump_pOut)
+
+GPS = GPS_Stuff()
+
+
+#########################################################################
+# Global variables
+
 
 
 #########################################################################
@@ -38,11 +44,11 @@ Pump = Pump_Control(pump_pOut)
 battery_status_start = ticks_ms()
 battery_status_period_ms = 1000 # 1000ms = 1s
 
-#gps_stuff_start = ticks_ms()
-#gps_stuff_period_ms = 1000
-
 pump_control_start = ticks_ms()
 pump_control_period_ms = 1000 # 1000ms = 1s
+
+gps_stuff_start = ticks_ms()
+gps_stuff_period_ms = 1000
 
 while True:
     try:
@@ -56,7 +62,7 @@ while True:
 
 
         #------------------------------------------------------
-        # Battery Status
+        # Pump Controller
         
         if ticks_ms() - pump_control_start > pump_control_period_ms:
             pump_control_start = ticks_ms()
@@ -66,11 +72,11 @@ while True:
         #------------------------------------------------------
         # GPS Stuff
         
-        # if ticks_ms() - gps_stuff_start > gps_stuff_period_ms:
-        #     gps_stuff_start = ticks_ms()
+        if ticks_ms() - gps_stuff_start > gps_stuff_period_ms:
+            gps_stuff_start = ticks_ms()
             
-        #     print(GPS.get_adafruit_gps())
-    
+            print(GPS.get_mqtt_gps())
+
 
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')

@@ -1,11 +1,12 @@
 from battery_status import Battery_Status
 from pump_control import Pump_Control
 from gps_stuff import GPS_Stuff
+# from mqtt_sender import MQTT_Sender
 
 ########################################
 # OWN MODULES
 from adc_sub import ADC_substitute
-
+import mqtt_sender
 
 
 #import umqtt_robust2 as mqtt
@@ -20,6 +21,7 @@ import sys
 
 PIN_BAT = 32
 PIN_PUMP = 33
+
 
 #########################################################################
 # OBJECTS
@@ -36,6 +38,13 @@ GPS = GPS_Stuff()
 #########################################################################
 # Global variables
 
+battery_pct = 0
+gps_data = 0
+
+#########################################################################
+# STUFF TO RUN ONCE
+mqtt_sender.client = mqtt_sender.connect_and_subscribe() # Connect to MQTT
+
 
 
 #########################################################################
@@ -50,6 +59,11 @@ pump_control_period_ms = 1000 # 1000ms = 1s
 gps_stuff_start = ticks_ms()
 gps_stuff_period_ms = 1000
 
+mqtt_sender_start = ticks_ms()
+mqtt_sender_period_ms = 1000
+
+
+
 while True:
     try:
         #------------------------------------------------------
@@ -58,7 +72,7 @@ while True:
             battery_status_start = ticks_ms()
             
             battery_pct = Battery.get_battery_pct()
-            print("Batteri procent:", battery_pct, "%")
+            #print("Batteri procent:", battery_pct, "%")
 
 
         #------------------------------------------------------
@@ -75,8 +89,17 @@ while True:
         if ticks_ms() - gps_stuff_start > gps_stuff_period_ms:
             gps_stuff_start = ticks_ms()
             
-            print(f"GPS data: {GPS.get_mqtt_gps()}")
+            gps_data = GPS.get_mqtt_gps()
+            print(f"GPS data: {gps_data}")
 
+        #------------------------------------------------------
+        # MQTT sender
+        #mqtt_sender.run_once()
+        
+        if ticks_ms() - mqtt_sender_start > mqtt_sender_period_ms:
+            mqtt_sender_start = ticks_ms()
+            
+            mqtt_sender.send_message(f"{battery_pct},{gps_data}")
 
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')

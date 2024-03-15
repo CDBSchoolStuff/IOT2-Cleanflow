@@ -33,12 +33,15 @@ password = credentials['password']
 
 station = network.WLAN(network.STA_IF)
 
-station.active(True)
-station.connect(ssid, password)
+try:
+    station.active(True)
+    station.connect(ssid, password)
 
-while station.isconnected() == False:
-    pass
+    while station.isconnected() == False:
+        pass
 
-print('Connection successful')
-print(station.ifconfig())
+    print('Connection successful')
+    print(station.ifconfig())
     
+except: # Except tilføjet for at lade koden køre uden forbindelse til netværk.
+    print("Network connection failed.")

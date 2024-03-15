@@ -12,7 +12,6 @@ class GPS_Stuff:
     uart = UART(gps_port, gps_speed)
     gps = GPS_Minimum(uart)
 
-
     #########################################################################
     # Functions
 
@@ -29,3 +28,13 @@ class GPS_Stuff:
         else:
             # print("GPS data not available...")
             return False
+    
+    def get_gps_time(self):
+        gps_seconds = self.gps.get_utc_seconds()
+        gps_minutes = self.gps.get_utc_minutes()
+        gps_hours = self.gps.get_utc_hours()
+        gps_day = self.gps.get_utc_day()
+        gps_month = self.gps.get_utc_month()
+        gps_year = self.gps.get_utc_year()
+        
+        return f"{gps_year}-{gps_month}-{gps_day}T{gps_hours}:{gps_minutes}:{gps_seconds}"

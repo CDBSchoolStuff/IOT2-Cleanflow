@@ -46,15 +46,15 @@ def restart_and_reconnect():
 
 
 def run_once():
-  try:
-      client = connect_and_subscribe()
-  except OSError as e:
-      restart_and_reconnect()
+    try:
+        client = connect_and_subscribe()
+    except OSError as e:
+        restart_and_reconnect()
       
-def send_message(msg):
+def send_message(msg, topic):
     try:
         #client = connect_and_subscribe()
-        client.publish(topic_pub, msg)
-        print(f"[MQTT] Topic: {topic_pub}| Message: {msg}")
+        client.publish(topic, msg)
+        print(f"[MQTT] Topic: {topic} | Message: {msg}")
     except OSError as e:
         restart_and_reconnect()

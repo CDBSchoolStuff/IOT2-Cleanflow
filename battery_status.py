@@ -4,7 +4,6 @@ import time
 
 ########################################
 # OWN MODULES
-from adc_sub import ADC_substitute
 
 
 class Battery_Status:

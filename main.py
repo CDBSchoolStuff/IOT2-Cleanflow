@@ -48,6 +48,7 @@ gps_data = 0
 liter = 0
 prev_liter = 0
 
+# Registrerer PIN_FLOWSENSOR som en input interrupt.
 flow_pIn = Pin(PIN_FLOWSENSOR, Pin.IN)
 flow_pIn.irq(trigger=Pin.IRQ_FALLING, handler=Flow.callback)
 

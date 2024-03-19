@@ -20,7 +20,7 @@ import sys
 
 PIN_BAT = 32
 PIN_PUMP = 33
-PIN_FLOWSENSOR = 36
+PIN_FLOWSENSOR = 18
 MQTT_TOPIC_BATTERY = "mqtt_bat"
 MQTT_TOPIC_LITER = "mqtt_liter"
 
@@ -37,6 +37,7 @@ Pump = Pump_Control(pump_pOut)
 GPS = GPS_Stuff()
 
 Flow = Flow_Sensor(Pump)
+
 
 #########################################################################
 # Global variables
@@ -170,6 +171,9 @@ while True:
         
         if ticks_ms() - pump_control_start > pump_control_period_ms:
             pump_control_start = ticks_ms()
+            
+            # Runs the pump controller code on an interval. Ensuring that the pump turns off.
+            Pump.controller(Flow.pulse)
             #Pump.pump_control()
             #Pump.pump_test()
 

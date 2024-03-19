@@ -15,7 +15,7 @@ class GPS_Stuff:
     #########################################################################
     # Functions
 
-    def get_mqtt_gps(self):
+    def get_gps_location(self):
         lat = lon = None
         if self.gps.receive_nmea_data():
             if self.gps.get_latitude() != -999.0 and self.gps.get_longitude() != -999.0 and self.gps.get_validity() == "A":

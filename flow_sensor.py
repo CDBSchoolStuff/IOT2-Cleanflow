@@ -73,7 +73,7 @@ class Flow_Sensor:
         return round(liter, 2)
     
     def get_liter(self, pulse_arg):
-        liter = float(self.pulse_arg / 450)
+        liter = float(pulse_arg / 450)
         return round(liter, 2)
     
     def reset_saved_liter(self):

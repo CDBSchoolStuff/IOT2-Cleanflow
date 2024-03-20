@@ -36,8 +36,8 @@ class Battery_Status:
     buffer = []                            # Opret en tom buffer
 
     # Resistors
-    resistor1 = 4.70
-    resistor2 = 4.70
+    resistor1 = 47
+    resistor2 = 22
     max_spaendingsdeler_voltage_measurement = 2.07   # Ikke brugt, bare til egen info. Målt ved 4.2V input med 2x 4.7k modstande.
 
 

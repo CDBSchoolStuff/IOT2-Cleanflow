@@ -20,7 +20,7 @@ import sys
 
 PIN_BAT = 32
 PIN_PUMP = 33
-PIN_FLOWSENSOR = 18
+PIN_FLOWSENSOR = 12
 MQTT_TOPIC_BATTERY = "mqtt_bat"
 MQTT_TOPIC_LITER = "mqtt_liter"
 
@@ -50,7 +50,7 @@ prev_liter = 0
 
 # Registrerer PIN_FLOWSENSOR som en input interrupt.
 flow_pIn = Pin(PIN_FLOWSENSOR, Pin.IN)
-flow_pIn.irq(trigger=Pin.IRQ_FALLING, handler=Flow.callback)
+flow_pIn.irq(trigger=Pin.IRQ_RISING, handler=Flow.callback)
 
 
 
@@ -72,7 +72,7 @@ battery_status_start = ticks_ms()
 battery_status_period_ms = 1000 # 1000ms = 1s
 
 pump_control_start = ticks_ms()
-pump_control_period_ms = 1000 # 1000ms = 1s
+pump_control_period_ms = 10000 # 1000ms = 1s
 
 gps_stuff_start = ticks_ms()
 gps_stuff_period_ms = 5000
